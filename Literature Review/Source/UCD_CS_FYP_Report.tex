@@ -45,7 +45,20 @@ Designing algorithms for NP-hard combinatorial optimization problems over graphs
 
 %%%%%%%%
 \chapter{Project Specification}
-Repeat here the main demands of the project as provided in the original project specification. Do not repeat the general introduction, just the Core and Advanced goals against which your progress will be judged. 
+\LARGE Core
+\normalsize
+\begin{itemize}
+    \item Identify features of edges that can discriminate between edges in the shortest TSP tour and edges that are not.
+    \item Take random samples of the pub crawl dataset and use a state-of-the-art heuristic on that to get the ground truth for training
+    \item Use the identified features and the ground truth on random samples to train a classification model that learns the edges in the shortest TSP tour
+    \item Evaluate the accuracy of the classification model
+\end{itemize}
+\LARGE Advanced
+\normalsize
+\begin{itemize}
+    \item Compare the running time vs. optimality trade-off of the learning approach with the Concorde TSP solver (\url{http://www.math.uwaterloo.ca/tsp/concorde.html})
+    \item Improve the accuracy of the classification algorithm by careful feature selection
+\end{itemize}
 
 
 %%%%%%%%
