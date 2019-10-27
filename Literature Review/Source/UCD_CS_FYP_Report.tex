@@ -70,10 +70,19 @@ Designing algorithms for NP-hard combinatorial optimization problems is a comple
 
 %%%%%%%%
 \chapter{Related Work and Ideas}
+\textbf{Exact Algorithms}
+An exact algorithm in the domain of optimization refers to a method that will always yield the most optimal solution. Such algorithms do exist for the TSP \cite{Bellman:1962:DPT:321105.321111}, this is one of the earliest adoptions of \textit{Dynamic Programming}. The main disadvantage to this algorithm is its runtime of $\mathcal{O}(n^22^n)$. Due to this, algorithm designers have looked towards other methods of optimisation such as heuristics and approximation algorithms.\\[0.5cm]
+\textbf{Concorde TSP Solver}
+In the 1990s, a collection of heuristics and functions have been designed by Applegate, Bixby, Chvátal, and Cook \cite{davidapplegate2007}. This solver holds the most records for solving large TSP instances with minuscule loss in accuracy. This precision does come at the cost of time, many large TSP problems take over 100-years of CPU time which isn't ideal for applications that require solutions to be obtained swiftly. The applications of the Concorde include: gene-mapping\cite{10.1093/jhered/esg012}, protein function prediction\cite{Johnson2006}, vehicle routing\cite{ApplegateVPR}, etc. According to \cite{MULDER2003827}, the Concorde “is widely regarded as the fastest TSP solver, for large instances, currently in existence.”\\[0.5cm]
 \textbf{Reinforcement learning for Combinatorial optimization}
-Reinforcement learning (RL) is used as a natural framework for learning the evaluation function in \cite{DBLP:journals/corr/DaiKZDS17}. An \textit{off-policy} RL algorithm such as Q-Learning was utilized here which updates its rules on the Q-Value rather than looking at past examples to learn. This technique was used over graph problems such as: Minimum Vertex Cut (MVC), Maximum Cut (MAXCUT), and the Travelling Salesman Problem (TSP). This type of approach lends itself to designing greedy heuristics for difficult combinatorial optimization problems. Heuristics as we know are commonly fast but in the area of optimization require certain knowledge about the underlying problem, this approach attempts to build these heuristics whilst learning about the underlying problem.\\[0.2cm]
-
+Reinforcement learning (RL) is used as a natural framework for learning the evaluation function in \cite{DBLP:journals/corr/DaiKZDS17}. An \textit{off-policy} RL algorithm such as Q-Learning was utilized here which updates its rules on the Q-Value rather than looking at past examples to learn. This technique was used over graph problems such as: Minimum Vertex Cut (MVC), Maximum Cut (MAXCUT), and the Travelling Salesman Problem (TSP). This type of approach lends itself to designing greedy heuristics for difficult combinatorial optimization problems. Heuristics as we know are commonly fast but in the area of optimization require certain knowledge about the underlying problem, this approach attempts to build these heuristics whilst learning about the underlying problem.\\[0.5cm]
 \textbf{Deep reinforcement learning}
+The use of an \textit{on-policy} technique using neural networks was applied in \cite{DeepRL} in a framework called \textsc{GCOMB}. Here they explore graph embedding techniques using \textit{Graph Convolutional Networks (GCN)} which are then fed into a neural network to learn a \textit{Q}-function in order to predict a solution. This solution would come in the form of an unordered or ordered set of nodes, depending on the problem. The advantages of this implementation include: 
+\begin{itemize}
+  \item \textbf{Scalability: }The proposed framework in the above study is able to scale to networks with millions of nodes and billions of edges.
+  \item \textbf{Generalizability: }\textsc{GCOMB}'s framework allows itself to be applied to many combinatorial problems rather than focusing on one specific problem.
+\end{itemize}
+However these advantages do come with the trade-off of interpretability, it becomes difficult to narrow down how the solution came to be with such complex frameworks. We will attempt to remedy this issue in this paper with our proposed framework.\\[0.5cm]
 
 
 
