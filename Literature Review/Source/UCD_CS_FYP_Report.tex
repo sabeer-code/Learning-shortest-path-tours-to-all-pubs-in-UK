@@ -105,9 +105,13 @@ However these advantages do come with the trade-off of interpretability, it beco
 
 %%%%%%%%
 \chapter{Data Considerations}
-In this section you should characterise the nature and scale of the data you are working with. Outline the shape of the data, where you expect to obtain it, and the size of the data. Is it static or dynamic, local or remote, stored or streaming? Is it raw or structured? Is it unfiltered user data, or is it curated by a specialist? What is your rationale for using this data and not other data? If your project looks at callout times for Spanish ambulances, usage rates of French parking lots, alcohol consumption in Germany, and so on, then explain why you are not using Irish data for the project. Indicate the data-cleaning processes that you anticipate will be necessary. What licensing restrictions, if any, apply to your data? Will you be making this data public after your project is completed? Are there any privacy or ethical issues with how the data is to be collected or used? If so, discuss here.
+The data is comprised of locations of pubs within the UK scraped from \url{https://www.pubsgalore.co.uk/}, a site containing addresses of all the pubs within the UK. The gathered data will include the name of each pub, a longitude and latitude pair, and if the pub is open or closed.  Upon inspection there is roughly 70000+ pubs. The data will be static and locally stored. We are using this as our primary source of data as it is regularly kept up to date and has very few missing values.
 
-Some or many of these questions may be moot in the case of specific projects, but you should provide compelling answers to any that seem relevant. Since this provides the foundation for your project, your reviewers will be looking closely.
+There is plenty of cleaning and pre-processing to be completed on the data. Converting the points to an edge list of a complete graph such that each point has an edge to every other point, calculating the weights of each edge (Euclidian distance between points), creating features for the edges and generating the ground truth for each edge.
+
+We will be using the Concorde TSP Solver \cite{davidapplegate2007} to build a tour from our dataset. This will provide us with the edges that are in the solution set and will help create our target for each instance in the original data.
+All the data used in this paper will be made publicly available. Any data used in this project was fairly gathered and raises no ethical concerns.
+
 
 %%%%%%%%
 \chapter{Outline of Approach}
@@ -135,9 +139,25 @@ As seen in \ref{fig:Prune}, these classifiers will create a decision boundary on
 
 %%%%%%%%
 \chapter{Project Workplan}
-In this section you will present a work plan for the remainder of your project. Show that you have considered the issues carefully, and that you can be trusted to lead a research or development effort. Be as specific as you can about the time you expect to allocate to each work component, and the dependencies they have to each other. A Gantt chart is helpful in this respect, but do show some sense in how you present your plan. A naïve understanding makes for a simplistic plan.
+\begin{figure}[h]
+    \centering
+  \includegraphics[width=1\linewidth]{Figures/GanttChart.pdf}
+  \caption{Project Workplan}
+  \label{fig:Workplan}
+\end{figure}
 
-A key part of a successful project is evaluation. It is not enough to just state that your project is a success, or that your friends seem to like it. You must have a plan for evaluating the end result. How you evaluate will depend on the nature of your project, and you should have a serious conversation with your supervisor about evaluation before you get to this stage. Will your work yield quantitative results that can be compared to past work or to established benchmarks? Does your work consider different configurations of a system or a solution that you can compare to each other, allowing you to empirically find the best one? Do you have a sample user pool for your planned application, and are they willing to give you structured qualitative and quantitative feedback (e.g. via a questionnaire)? However you plan to evaluate your project, please sketch your intentions here.
+\begin{itemize}
+    \item \textbf{Data Scraping: }
+    \item \textbf{Data Cleaning/Pre-processing: }
+    \item \textbf{Generating Ground Truth: }
+    \item \textbf{Featurising Data: }
+    \item \textbf{Train Machine Learning Models/Evaluation and Testing: }
+    \item \textbf{Write Up: }
+    \item \textbf{Contingency: }
+\end{itemize}
+%In this section you will present a work plan for the remainder of your project. Show that you have considered the issues carefully, and that you can be trusted to lead a research or development effort. Be as specific as you can about the time you expect to allocate to each work component, and the dependencies they have to each other. A Gantt chart is helpful in this respect, but do show some sense in how you present your plan. A naïve understanding makes for a simplistic plan.
+
+%A key part of a successful project is evaluation. It is not enough to just state that your project is a success, or that your friends seem to like it. You must have a plan for evaluating the end result. How you evaluate will depend on the nature of your project, and you should have a serious conversation with your supervisor about evaluation before you get to this stage. Will your work yield quantitative results that can be compared to past work or to established benchmarks? Does your work consider different configurations of a system or a solution that you can compare to each other, allowing you to empirically find the best one? Do you have a sample user pool for your planned application, and are they willing to give you structured qualitative and quantitative feedback (e.g. via a questionnaire)? However you plan to evaluate your project, please sketch your intentions here.
 
 %%%%%%%%
 \chapter{Summary and Conclusions}
@@ -155,7 +175,7 @@ The dates and means of submission will be communicated to you separately.
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%%% Latex help.
-\input{latexhelp.tex}
+%\input{latexhelp.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%
