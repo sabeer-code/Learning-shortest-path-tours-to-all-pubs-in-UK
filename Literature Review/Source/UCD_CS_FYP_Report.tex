@@ -24,7 +24,7 @@
 \def\studentname{Sabeer Bakir}% Edit with your name
 \def\studentid{16333886}% Edit with your student id
 \def\projecttitle{Learning shortest path tours to all pubs in UK} % Edit with you project title
-\def\supervisorname{Deepak Ajwani}
+\def\supervisorname{Dr. Deepak Ajwani}
 
 
 \begin{document}
@@ -41,11 +41,15 @@
 %%%%%%%%%%%%%%%%%%%%%%
 %%% Your Abstract here
 \abstract
-Designing algorithms for NP-hard combinatorial optimization problems over graphs is a complex task. It has been shown with use of good heuristics and approximation algorithms that these problems can be solved in polynomial time. However, these solutions require problem-specific knowledge and trial-and-error. Is it possible to automate this learning process with the use of machine learning classification? In real world applications, the data is very rarely similar however the structures within may not differ as much. In this paper, we will explore a method to solve the Travelling Salesman Problem (TSP) using classification to identify edges that are contained within the tour created by the TSP. The applications of this can be applied in many areas such as, DNA Sequencing, Route Planning, Logistics Management, etc.
+Designing algorithms for NP-hard combinatorial optimization problems is a complex task. These problems are typically solved using carefully designed heuristics and polynomial time approximation algorithms. However, these solutions require problem-specific knowledge and trial-and-error. Automating this process has been a long-held dream of AI researchers. In this thesis, we consider the Travelling Salesman Problem (TSP) and use a classification model to identify the edges that are contained in the TSP tour. 
 
 
 %%%%%%%%
 \chapter{Project Specification}
+The problem is to find a shortest tour covering each of the 49,687 pub crawls in UK (a large instance of the classic Travelling Salesman Problem). Travelling Salesman Problem (TSP) is an NP-hard problem and even for 50 cities, the world's fastest supercomputer has no hope of going through the full count of tours one by one to pick out the shortest. So, it may seem very daunting. However, the state-of-the-art heuristics have already solved this instance, to within 1 meter of accuracy (\url{http://www.math.uwaterloo.ca/tsp/uk/index.html}), in around 250 years of computer time.
+
+The goal of this project is to explore if it is possible to \textbf{learn} the shortest tour in a supervised manner. In other words, a classification model is required to be learnt that can predict the edges in the shortest TSP tour based on the features of edges. It is hoped that the learning approach would compute close-to-optimal solution in significantly less computation time.\\[0.5cm]
+
 \LARGE Core
 \normalsize
 \begin{itemize}
@@ -64,28 +68,30 @@ Designing algorithms for NP-hard combinatorial optimization problems over graphs
 
 %%%%%%%%
 \chapter{Introduction}
-The Travelling salesman problem (TSP) is a combinatorial graph optimization question that is. This problem is NP-hard and has caused considerable interest by theory and algorithm design communities in the past. In the realm of computational complexity, one of Karp's 21 NP-complete problems is the Hamiltonian Cycle Problem, this is a special case of the travelling salesman problem.\\[0.2cm] 
+The Travelling salesman problem (TSP) is a combinatorial graph optimization question that is. This problem is NP-hard and has caused considerable interest by theory and algorithm design communities in the past. In the realm of computational complexity, one of Karp's 21 NP-complete problems is the Hamiltonian Cycle Problem, this is a special case of the travelling salesman problem.
+
 The TSP was first introduced in the 1800s by the Irish mathematician Sir William Rowan Hamilton and the British mathematician Thomas Penyngton Kirkman. However, optimisation of the TSP only came about in the 1930s from Karl Menger in Vienna and Harvard. Menger defined the problem as, “Given a finite number of points, with known pairwise distances, find the shortest path connecting the points.”\cite{Menger}
 
-Techniques that are used to solve these graph optimisation problems comes in three main type: exact algorithms, approximation algorithms and heuristics. Exact algorithms always find the most optimal solution however it requires exponential time which does not scale well for large inputs. Approximation algorithms offer the desirable polynomial time solution however it is hard to guarantee the optimality for certain problems. Heuristics are typically fast but require problem specific research and experimenting from the algorithm designers.\\[0.2cm]
-Designing algorithms for NP-hard combinatorial optimization problems is a complex task. It has been shown with use of good heuristics and approximation algorithms that these problems can be solved in polynomial time. However, these solutions require problem-specific knowledge and trial-and-error. Is it possible to automate this learning process with the use of machine learning classification? In real world applications, the data is very rarely similar however the structures within the data do not differ. In this paper, we will explore a method to solve the Travelling Salesman Problem (TSP) using classification to identify edges that are contained within the tour created by the TSP. We will see if it is possible to learn the shortest path to all pubs in the UK. The applications of this can be applied in many areas such as, DNA Sequencing, Route Planning, Logistics Management, etc.
+Techniques that are used to solve these graph optimisation problems comes in three main type: exact algorithms, approximation algorithms and heuristics. Exact algorithms always find the most optimal solution however it requires exponential time which does not scale well for large inputs. Approximation algorithms offer the desirable polynomial time solution however it is hard to guarantee the optimality for certain problems. Heuristics are typically fast but require problem specific research and experimenting from the algorithm designers.
+
+Designing algorithms for NP-hard combinatorial optimization problems is a complex task. It has been shown with use of good heuristics and approximation algorithms that these problems can be solved in polynomial time. However, these solutions require problem-specific knowledge and trial-and-error. Is it possible to automate this learning process with the use of machine learning classification? In real world applications, the data is very rarely similar however the structures within the data do not differ. In this thesis, we will explore a method to solve the TSP using classification to identify edges that are contained within the tour created by the TSP. We will see if it is possible to learn the shortest path to all pubs in the UK. The applications of this can be applied in many areas such as, DNA Sequencing, Route Planning, Logistics Management, etc.
 
 %%%%%%%%
 \chapter{Related Work and Ideas}
-\subsection{Background to Combinatorial Optimization}
+\section{Background to Combinatorial Optimization}
 Combinatorial optimization is an area of research that consists of finding an optimal ordering/subset from a finite set of objects. In many of these problems, exhaustive search is not an option as these problems are NP-hard, meaning that there is no known polynomial time algorithm to solve them. There is a demand for solutions to these problems in many domains such as network design, bioinformatics, game theory and many more \cite{combApplications}. Is it possible to still find good solutions to these problems? Due to the popularity of these problems, it has created a surge of algorithms that approximate a solution close to the optimal solution. These methods include exact algorithms \cite{Bellman:1962:DPT:321105.321111}, approximation algorithms \cite{JohnMcGe97}, domain specific heuristics\cite{davidapplegate2007} and meta-heuristics \cite{Larranaga1999, NatureBasedHeuristics}. The travelling salesman problem is no exception to these methods, the TSP is known as a classic problem in combinatorial optimisation. 
 
 Initially the travelling salesman problem was tackled using exact algorithms, searching for a complete solution. One of the first algorithms of this nature was the Held-Karp Algorithm \cite{Bellman:1962:DPT:321105.321111}. These exact algorithms that searched the entire solution space often were only useful for very small input sizes and was usually not suitable for real world data more nodes and edges than synthetic problems.
 
-\textbf{Exact Algorithms}
+\section{Exact Algorithms in the TSP}
 An exact algorithm in the domain of optimization refers to a method that will always yield the most optimal solution. Such algorithms do exist for the TSP \cite{Bellman:1962:DPT:321105.321111}, this is one of the earliest adoptions of \textit{Dynamic Programming}. The main disadvantage to this algorithm is its runtime of $\mathcal{O}(N^22^N)$. Due to this, algorithm designers have looked towards other methods of optimisation such as heuristics and approximation algorithms.
 
-\subsection{Approximation Algorithms}
+\section{Approximation Algorithms for the TSP}
 Algorithm designers looked towards approximating the solution such that a close to optimal solution could be obtained in substantially less time than an exact algorithm. Many approximation algorithms have been applied to the travelling salesman problem; one noteworthy method is Christofides \cite{JohnMcGe97}. There has been little to no improvement in approximation algorithms since. 
 
 \textbf{Christofides} ensures solutions that will be within a factor of 3/2 of the optimal solution. The tour is generated by constructing the minimum weight spanning tree where the weights are the distances between the nodes. Compute a perfect matching on the nodes of odd degree and combine with the spanning tree. This will result in a connected graph with each node having even degree. On one hand, this approach has the best worst-case solution of the constructive heuristics, on the other hand it's runtime is substantially longer than heuristics due to the perfect matching algorithm complexity.
 
-\subsection{Heuristics}
+\section{Heuristics for the TSP}
 Designers looked towards domain specific heuristics to solve TSPs with some prior knowledge of the problem at hand. These methods are fast and will run in polynomial time whilst yielding solutions very close to optimal. An example of such heuristics can be found in the Concorde TSP Solver \cite{davidapplegate2007}, a very powerful program used to solve TSPs with close to optimal solutions on graphs with tens of thousands of nodes.
 
 \textbf{Constructive Heuristics}
@@ -101,7 +107,7 @@ This approach differs from local search heuristics where a solution is given and
 In the 1990s, a collection of heuristics and functions have been designed by Applegate, Bixby, Chvátal, and Cook \cite{davidapplegate2007}. This solver holds the most records for solving large TSP instances with minuscule loss in accuracy. This precision does come at the cost of time, many large TSP problems take over 100-years of CPU time which isn't ideal for applications that require solutions to be obtained swiftly. The applications of the Concorde include: gene-mapping\cite{10.1093/jhered/esg012}, protein function prediction\cite{Johnson2006}, vehicle routing\cite{ApplegateVPR}, etc. According to \cite{MULDER2003827}, the Concorde “is widely regarded as the fastest TSP solver, for large instances, currently in existence.”
 
 \newpage
-\subsection{Meta-heuristics}
+\section{Meta-heuristics for the TSP}
 The time taken to develop heuristics can be heavily time consuming. To remedy this learning process, meta-heuristics were implemented to augment algorithm designer’s ability to distinguish the details within the problem instances. Despite this benefit of meta-heuristics, it shifts the problem to properly configuring the algorithm with the correct parameters which can vary from problem to problem. The overall goal of these algorithms is to find a global optimum within the solution space. This is different to regular heuristics that often get trapped in local optimum solutions. Some examples of these methods include: Genetic algorithms, Bee Colony Optimization, Ant Colony Optimization and Particle Swarm Optimization. These solutions introduce a new problem of interpretability of the method, many of these algorithms are considered “black boxes”. It’s very difficult to analyse exactly what is happening, because of this there is no guarantee of an approximation factor.
 
 \textbf{Genetic algorithms}
@@ -112,7 +118,7 @@ These types of heuristics apply concepts from nature to tackle complex computati
 
 
 
-\subsection{Deep Learning}
+\section{Deep Learning techniques for the TSP}
 Deep neural networks are powerful frameworks that can take large amounts of data and process it through a series of layers to extract features from the input and produce an output according to what it’s trained to learn. In the case of the travelling salesman problem, the input is the elements of the problem instance, the nodes and edges in graphs. It’s expected output is edges in the travelling salesman problem that are part of the shortest tour. These neural networks automatically learn features relevant to the problem as well as the mapping from the input to the output. However, this mapping is only valid for an instance from a given domain. One of the issues with training a deep neural network is the large amount of training data required to have an accurate model. To acquire such training data, that would involve solving NP-hard problems itself. The way to combat this is to train the network on small instances that are relatively easier to collect training data for as patterns observed in smaller instances remain true for larger instances. \cite{NIPS2015_5866} used a pointer networks to solve the travelling salesman problem, they trained on smaller instances containing 5-20 points. They observed almost perfect results for 25 points, good results for 30 points and the accuracy decreased dramatically for 40 and above. The more glaring issue with deep learning is the interpretability of the method, with large amounts of weights and biases, it becomes very difficult to analyse the solution. The method is not flexible either, adding new constraints or a change to the domain can have dramatic effects on the solution.
 
 \textbf{Deep reinforcement learning}
@@ -121,9 +127,9 @@ The use of an \textit{on-policy} techniques using neural networks was applied in
   \item \textbf{Scalability: }The proposed framework in the above study is able to scale to networks with millions of nodes and billions of edges.
   \item \textbf{Generalizability: }\textsc{GCOMB}'s framework allows itself to be applied to many combinatorial problems rather than focusing on one specific problem.
 \end{itemize}
-However these advantages do come with the trade-off of interpretability, it becomes difficult to narrow down how the solution came to be with such complex frameworks. We will attempt to remedy this issue in this paper with our proposed framework.
+However these advantages do come with the trade-off of interpretability, it becomes difficult to narrow down how the solution came to be with such complex frameworks. We will attempt to remedy this issue in this thesis with our approach.
 
-\subsection{Machine Learning}
+\section{Machine Learning techniques for the TSP}
 The machine learning space of combinatorial optimization is currently dominated by reinforcement learning methods and frameworks. Reinforcement learning differs from supervised learning by not requiring input-output pairs of examples to train on. Instead, the algorithm aims to strike a balance between exploration of the solution space and exploiting previously learning knowledge about the solution space \cite{ReinforcementLearning}.
 
 \textbf{Reinforcement learning}
@@ -132,19 +138,22 @@ Reinforcement learning is used as a natural framework for learning the evaluatio
 \textbf{Supervised Machine Learning}
 There has been recent work in supervised machine learning in \cite{iAAA}. They have built a framework for reducing the search space of the problem by augmenting state-of-the-art solvers to solve the maximum clique problem. This is done by identifying the vertices that are not part of the solution and pruning them from the data such that search space is reduced significantly and an approximation algorithm can be used to find the maximum clique in a shorter time than if this algorithm was run on the full set of vertices.
 
-Our proposed framework will borrow techniques from \cite{iAAA} and apply it to the travelling salesman problem.
+Our approach will borrow techniques from \cite{iAAA} and apply it to the travelling salesman problem.
 
 
 
 
 %%%%%%%%
 \chapter{Data Considerations}
-The data is comprised of locations of pubs within the UK scraped from \url{https://www.pubsgalore.co.uk/}, a site containing addresses of all the pubs within the UK. The gathered data will include the name of each pub, a longitude and latitude pair, and if the pub is open or closed.  Upon inspection there is roughly 70000+ pubs. The data will be static and locally stored. We are using this as our primary source of data as it is regularly kept up to date and has very few missing values.
+The data is comprised of locations of pubs within the UK scraped from \url{https://www.pubsgalore.co.uk/}, a site containing addresses of all the pubs within the UK. The gathered data will include the name of each pub, a latitude  and longitude pair, and if the pub is open or closed.  Upon inspection there are roughly 70,000+ pubs. The data will be static and locally stored. We are using this as our primary source of data as it is regularly kept up to date and has very few missing values.
 
-There is plenty of cleaning and pre-processing to be completed on the data. Converting the points to an edge list of a complete graph such that each point has an edge to every other point, calculating the weights of each edge (Euclidian distance between points), creating features for the edges and generating the ground truth for each edge.
+With each point, we will calculate a distance metric. For early training we will use Euclidean distance for each pair of points. These edges will require features to aid in the machine learning process, for this we will be paying close attention to related work methods to provide good characteristics for each edge.
+%Converting the points to an edge list of a complete graph such that each point has an edge to every other point, calculating the weights of each edge (Euclidean distance between points), creating features for the edges and generating the ground truth for each edge.
 
 We will be using the Concorde TSP Solver \cite{davidapplegate2007} to build a tour from our dataset. This will provide us with the edges that are in the solution set and will help create our target for each instance in the original data.
-All the data used in this paper will be made publicly available. Any data used in this project was fairly gathered and raises no ethical concerns.
+All the data used in this thesis will be made publicly available. Any data used in this project was fairly gathered and is not used in a malicious way.
+
+There is a concern about the accuracy of the solution as we’ve opted to use Euclidean Distance measure between the pubs rather than the time taken to drive/walk or in some cases take a ferry. That information could be provided by the Google Maps API, however we have a limited amount of API calls which won't allow us to have a full set of new metrics.
 
 
 %%%%%%%%
@@ -155,7 +164,7 @@ In our case, lets assume for an instance of the travelling salesman problem, it 
 The goal is to create a tour that traverses this graph, crossing every vertex in $V$ with minimal weight and return to beginning of the tour. Such a tour is known as a \textit{Hamiltonian cycle}.
 
 \subsection{Approach}
-We will attempt to use a simple binary classification model to learn whether an edge is part of the TSP tour or not. The advantage to this approach is the interpretability and scalability of this model over more complex frameworks such has deep learning. We will be able to analyse the parameters and see the key features that distinguish edges from each other.
+We will attempt to use a simple binary classification model to learn whether an edge is part of the TSP tour or not. The advantage to this approach is the interpretability and scalability of this model over more complex frameworks such as deep learning. We will be able to analyse the parameters and see the key features that distinguish edges from each other.
 
 We will be training several classifiers such as:
 \begin{itemize}
@@ -166,7 +175,7 @@ We will be training several classifiers such as:
 
 The other classifiers will be used to compare the performance of the Random Forest algorithm.
 Start with small subsets of the data (i.e. 1000 points), as the algorithm improves, we will increase the input size until we are able to fully classify the entire dataset.
-We will prune\cite{iAAA} the edges that are guaranteed not to be contained within the tour. 
+We will prune the edges that are guaranteed not to be contained within the tour as in \cite{iAAA}. 
 
 \newpage
 \begin{figure}[h]
@@ -175,7 +184,7 @@ We will prune\cite{iAAA} the edges that are guaranteed not to be contained withi
   \caption{Decision boundary created by classifier}
   \label{fig:Prune}
 \end{figure}
-As seen in \ref{fig:Prune}, these classifiers will create a decision boundary on the edges where green points are in the tour and red edges are not. Using repeated pruning, we can limit our data to edges that are part of the solution with few misclassified edges. After reducing the problem space, We can then execute an approximation algorithm on this smaller dataset in turn providing close to an approximate solution in significantly less time.
+As seen in Fig \ref{fig:Prune}, these classifiers will create a decision boundary on the edges where green edges are in the tour and red edges are not. Using repeated pruning, we can limit our data to edges that are part of the solution with few misclassified edges. After reducing the problem space, We can then execute an approximation algorithm on this smaller dataset in turn providing close to an approximate solution in significantly less time.
 
 
 %%%%%%%%
@@ -191,13 +200,13 @@ As seen in \ref{fig:Prune}, these classifiers will create a decision boundary on
     \item \textbf{Data Scraping: }
     
     Writing the script to collect the data.
-    \item \textbf{Data Cleaning/Pre-processing: }
+    \item \textbf{Computation of Distance Metrics: }
     
-    Cleaning the data and reformatting it into an edge list rather than a list of coordinates.
+    Calculating the distances for every pair of pubs.
     \item \textbf{Generating Ground Truth: }
     
-    Finding a close to optimal solution through other methods to generate the \textit{target} column in the data.
-    \item \textbf{Characterizing Data: }
+    Finding a close to optimal solution through other methods to generate the \textit{target} column in the data. We will achieve this by running the Concorde TSP Solver.
+    \item \textbf{Feature Engineering: }
     
     Finding features that will capture details in the edges to aid in the classification process.
     \item \textbf{Train Machine Learning Models/Evaluation and Testing: }
@@ -205,17 +214,16 @@ As seen in \ref{fig:Prune}, these classifiers will create a decision boundary on
     Training, paramaterizing, evaluating and testing the machine learning models.
     \item \textbf{Write Up: }
     
-    Experimental write up.
+    Experimental write up, this will be done in parallel at the same time as feature engineering.
     \item \textbf{Contingency: }
     
-    I've allowed roughly one week for contingency for problems that will arise while carrying out this project. I believe this is an adequate amount of time tackle the upcoming problems.
+    I've allowed roughly one week for contingency for problems that will arise while carrying out this project. We believe this is an adequate amount of time tackle the upcoming problems.
 \end{itemize}
 
 %%%%%%%%
 \chapter{Summary and Conclusions}
-Combinatorial optimization is an NP-Hard problem that has applications in today’s world. In this paper we tackled the travelling salesman problem, one of the classical combinatorial optimization problems. Explored the state-of-the art and many methods of tackling the TSP from Exact algorithms to complex Deep Learning frameworks. We proposed a machine learning classification framework to learn the edges that are in the travelling salesman problem in order to prune edges that aren’t in the TSP. This enables us to run approximation algorithms on a considerably smaller edge list which will reduce computation time. 
+Combinatorial optimization is an NP-Hard problem that has many applications. In this thesis, we consider the travelling salesman problem, one of the classical combinatorial optimization problems. We reviewed the various techniques to solve travelling salesman problem from exact algorithms to complex Deep Learning frameworks. We will use a machine learning classification framework to identify the edges in the travelling salesman tour. This prediction is then used to prune edges that aren’t in a TSP tour. This enables us to scale-up exact and approximation algorithms. 
 
-There is a concern about the accuracy of the solution as we’ve opted to use Euclidean Distance measure between the pubs rather than path given by roads/ferries that could be provided by the Google Maps API, however we have a limited amount of API calls and this limits us to the method we have proposed.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
