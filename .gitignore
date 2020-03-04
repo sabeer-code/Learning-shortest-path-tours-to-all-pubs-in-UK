@@ -14,3 +14,11 @@ Code/graphgen/Graphs/.ipynb_checkpoints/
 *.sav
 
 *.sol
+
+Code/4. edge_dataset/.ipynb_checkpoints/
+
+Code/3_edgegen/.ipynb_checkpoints/
+
+Code/4_edge_dataset/.ipynb_checkpoints/
+
+Code/4_edge_dataset/__pycache__/
