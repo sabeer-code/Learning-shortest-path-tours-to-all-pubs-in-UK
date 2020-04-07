@@ -1,6 +1,4 @@
 import pandas as pd
-import multiprocessing
-import os
 
 
 def edges_incident_to_edge(edge_series, edge):
@@ -25,6 +23,51 @@ def edges_incident_to_edge(edge_series, edge):
     edges_incident = edges_incident.drop_duplicates()
 
     return edges_incident
+
+
+def edges_incident_to_node(df_TSP, node, metric='DISTANCE_KM'):
+    """
+    This function will get the list of edges that are incident to the 2 nodes that create our target edge.
+
+    :param df_TSP: A DataFrame containing all the data from the TSP (pd.DataFrame)
+    :param node: the target node (int)
+    :param metric: a metric to use to sort edges
+    :return: pd.DataFrame object of sorted edges incident to the target node and its weights
+    """
+
+    edge_series = df_TSP['EDGE(Node1_ID, Node2_ID)']
+
+    assert isinstance(node, int)
+    assert isinstance(edge_series, pd.Series)
+
+    incident_edges = edge_series[edge_series.apply(lambda x: node in x)]
+    df_out = df_TSP.merge(incident_edges)
+    df_out = df_out[['EDGE(Node1_ID, Node2_ID)', 'DISTANCE_KM']]
+    df_out = df_out.sort_values(metric)
+    df_out = df_out.reset_index(drop=True)
+
+    return df_out
+
+
+def local_edge_rank_incident_to_node(df_nodes, node, edge):
+    """
+    This function calculates a rank value equal to the number of edges that have a
+    higher distance metric.
+
+    :param df_nodes: A pd.DataFrame object that contains a list of nodes and it's edges
+    :param node: Target node (int)
+    :param edge: Target edge (tuple)
+    :return: Rank value (int)
+    """
+
+    assert isinstance(df_nodes, pd.DataFrame)
+    assert isinstance(node, int)
+    assert isinstance(edge, tuple)
+
+    df_incident_edges = df_nodes.iloc[node]['Incident Edges']
+    rank = df_incident_edges[df_incident_edges['EDGE(Node1_ID, Node2_ID)'] == edge].index[0]
+
+    return rank
 
 
 def local_edge_rank(df_TSP, edge, metric='DISTANCE_KM'):
