@@ -1,5 +1,9 @@
 import pandas as pd
 import numpy as np
+import os
+
+#os.environ['PROJ_LIB'] = os.environ['CONDA_PREFIX'] + os.sep+ 'Library' + os.sep + 'share' # bug fix with anaconda and basemap (Windows)
+os.environ['PROJ_LIB'] = os.environ['CONDA_PREFIX'] + os.sep+ 'share' + os.sep + 'proj' # bug fix with anaconda and basemap (Linux)
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 
