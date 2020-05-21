@@ -102,11 +102,10 @@ class PubsSpider(scrapy.Spider):
                 
 #         To include closed pubs
 #          pubs += response.css('div.pubclosed a::attr(href)').getall()
-                
-          if pubs is not None:
-              for pub in pubs:
-                  pub = response.urljoin(pub)
-                  yield scrapy.Request(pub, callback=self.parsePub)
+        if pubs is not None:
+            for pub in pubs:
+                pub = response.urljoin(pub)
+                yield scrapy.Request(pub, callback=self.parsePub)
 
     
     def parse(self, response):
